@@ -40,11 +40,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: type-check
-        run: npm run tsc --noEmit
+        run: npm run type-check
       - name: ESLint
-        run: lint:fix
+        run: npm run lint
       - name: Prettier
-        run: format
+        run: npm run format:check
 
 
   # Build job
