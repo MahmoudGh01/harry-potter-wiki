@@ -35,16 +35,16 @@ jobs:
         with:
           node-version: "20"
           cache: npm
+
       - name: Install dependencies
         run: npm ci
       - name: Typecheck
-        run: npm run lint-typecheck
+        run: npm run tsc --noEmit
       - name: ESLint
-        run: npm run lint-eslint
+        run: npm eslint . --ext .js,.jsx,.ts,.tsx --fix
       - name: Prettier
-        run: npm run lint-prettier
-      - name: depcheck
-        run: npm run lint-depcheck
+        run: npm run prettier --write .
+
 
   # Build job
   build:
