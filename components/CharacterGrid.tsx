@@ -22,7 +22,6 @@ export default function CharacterGrid() {
         }
 
         const data: Character[] = await response.json();
-        // Display first 12 characters (3x4 grid)
         setCharacters(data.slice(0, 12));
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');

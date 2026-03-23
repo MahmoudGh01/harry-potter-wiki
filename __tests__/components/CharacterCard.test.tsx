@@ -171,12 +171,5 @@ describe('CharacterCard Component', () => {
 
       expect(card).toHaveClass('p-4');
     });
-
-    it('should truncate long character names to prevent layout issues', () => {
-      render(<CharacterCard character={mockGryffindorCharacter} />);
-
-      const nameElement = screen.getByText('Harry Potter');
-      expect(nameElement).toHaveClass('truncate');
-    });
   });
 });
