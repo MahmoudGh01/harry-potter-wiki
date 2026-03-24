@@ -6,28 +6,70 @@ interface CharacterCardProps {
 }
 
 export default function CharacterCard({ character }: CharacterCardProps) {
-  // Function to get house color for styling
-  const getHouseColor = (house: string) => {
-    switch (house.toLowerCase()) {
+  // Get house-specific colors and styling
+  const getHouseColors = (house: string) => {
+    const houseLower = house.toLowerCase();
+    switch (houseLower) {
       case 'gryffindor':
-        return 'border-red-500 bg-red-50 dark:bg-red-900/20';
+        return {
+          border: 'border-gryffindor-primary',
+          bg: 'bg-gryffindor-primary/90',
+          borderSecondary: 'border-gryffindor-secondary',
+          shadow:
+            'shadow-gryffindor-primary/40 hover:shadow-gryffindor-primary/60',
+          text: 'text-gryffindor-secondary',
+          icon: '/assets/icons8-hogwarts-legacy-gryffindor-48.png',
+        };
       case 'slytherin':
-        return 'border-green-500 bg-green-50 dark:bg-green-900/20';
+        return {
+          border: 'border-slytherin-primary',
+          bg: 'bg-slytherin-primary/90',
+          borderSecondary: 'border-slytherin-secondary',
+          shadow:
+            'shadow-slytherin-primary/40 hover:shadow-slytherin-primary/60',
+          text: 'text-slytherin-secondary',
+          icon: '/assets/icons8-hogwarts-legacy-slytherin-48.png',
+        };
       case 'ravenclaw':
-        return 'border-blue-500 bg-blue-50 dark:bg-blue-900/20';
+        return {
+          border: 'border-ravenclaw-primary',
+          bg: 'bg-ravenclaw-primary/90',
+          borderSecondary: 'border-ravenclaw-secondary',
+          shadow:
+            'shadow-ravenclaw-primary/40 hover:shadow-ravenclaw-primary/60',
+          text: 'text-ravenclaw-secondary',
+          icon: '/assets/icons8-hogwarts-legacy-ravenclaw-48.png',
+        };
       case 'hufflepuff':
-        return 'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20';
+        return {
+          border: 'border-hufflepuff-primary',
+          bg: 'bg-hufflepuff-primary/90',
+          borderSecondary: 'border-hufflepuff-secondary',
+          shadow:
+            'shadow-hufflepuff-primary/40 hover:shadow-hufflepuff-primary/60',
+          text: 'text-hufflepuff-primary',
+          icon: '/assets/icons8-hogwarts-legacy-hufflepuff-48.png',
+        };
       default:
-        return 'border-gray-300 bg-gray-50 dark:bg-gray-800';
+        return {
+          border: 'border-hp-bronze',
+          bg: 'bg-hp-shadow/90',
+          borderSecondary: 'border-hp-text',
+          shadow: 'shadow-hp-bronze/40 hover:shadow-hp-bronze/60',
+          text: 'text-hp-accent',
+          icon: null,
+        };
     }
   };
 
+  const houseColors = getHouseColors(character.hogwartsHouse);
+
   return (
     <div
-      className={`rounded-lg border-2 p-4 shadow-lg transition-transform hover:scale-105 ${getHouseColor(character.hogwartsHouse)}`}
+      className={`relative h-80 rounded-lg border-2 ${houseColors.border} ${houseColors.shadow} shadow-xl overflow-hidden transition-all duration-300 hover:scale-105 group`}
     >
-      {/* Character Image */}
-      <div className="relative h-48 w-full mb-4 overflow-hidden rounded-lg">
+      {/* Background Image */}
+      <div className="absolute inset-0">
         <Image
           src={character.image}
           alt={character.fullName}
@@ -37,26 +79,50 @@ export default function CharacterCard({ character }: CharacterCardProps) {
         />
       </div>
 
-      {/* Character Info */}
-      <div className="space-y-2">
-        <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 truncate">
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
+
+      {/* House Badge */}
+      {houseColors.icon && (
+        <div
+          className={`absolute top-3 right-3 flex items-center gap-2 px-3 py-1.5 rounded-full border-2 ${houseColors.bg} ${houseColors.borderSecondary} backdrop-blur-sm shadow-lg`}
+        >
+          <Image
+            src={houseColors.icon}
+            alt={character.hogwartsHouse}
+            width={20}
+            height={20}
+            className="object-contain"
+          />
+          <span
+            className={`text-sm hp-title hp-magical-text font-semibold ${houseColors.text}`}
+          >
+            {character.hogwartsHouse}
+          </span>
+        </div>
+      )}
+
+      {/* Content Overlay */}
+      <div className="absolute bottom-0 left-0 right-0 p-4 space-y-2">
+        {/* Character Name */}
+        <h3
+          className={`hp-title text-xl ${houseColors.text} truncate drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]`}
+        >
           {character.fullName}
         </h3>
 
-        <p className="text-sm text-gray-600 dark:text-gray-300">
-          <span className="font-semibold">House:</span>{' '}
-          {character.hogwartsHouse}
-        </p>
-
+        {/* Actor */}
         {character.interpretedBy && (
-          <p className="text-sm text-gray-600 dark:text-gray-300">
-            <span className="font-semibold">Actor:</span>{' '}
-            {character.interpretedBy}
+          <p className="text-sm drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+            <span className={`font-semibold ${houseColors.text}`}>Actor:</span>{' '}
+            <span className="text-hp-parchment">{character.interpretedBy}</span>
           </p>
         )}
 
-        <p className="text-xs text-gray-500 dark:text-gray-400">
-          Born: {character.birthdate}
+        {/* Birthdate */}
+        <p className="text-xs text-hp-text/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+          <span className={`font-semibold ${houseColors.text}`}>Born:</span>{' '}
+          {character.birthdate}
         </p>
       </div>
     </div>

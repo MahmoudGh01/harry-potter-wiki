@@ -1,26 +1,127 @@
 @import 'tailwindcss';
 
+/* Harry Potter Custom Font */
+@font-face {
+  font-family: 'Harry Potter';
+  src: url('/fonts/HarryPotter-ov4z.ttf') format('truetype');
+  font-display: swap;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* HP Theme Colors */
+  --hp-background: #0b0b0f;
+  --hp-primary: #7f0909;
+  --hp-secondary: #2a623d;
+  --hp-accent: #ecb939;
+  --hp-parchment: #f4e8c1;
+  --hp-text: #eaeaea;
+  --hp-dark-blue: #0e1a40;
+  --hp-bronze: #946b2d;
+  --hp-shadow: #111111;
+
+  /* Gryffindor */
+  --gryffindor-primary: #740001;
+  --gryffindor-secondary: #ffcd14;
+  --gryffindor-light: #8b2635;
+  --gryffindor-dark: #5c0001;
+
+  /* Slytherin */
+  --slytherin-primary: #0d4f3c;
+  --slytherin-secondary: #c0c0c0;
+  --slytherin-light: #1a5d4a;
+  --slytherin-dark: #083a2e;
+
+  /* Ravenclaw */
+  --ravenclaw-primary: #0e1a40;
+  --ravenclaw-secondary: #946b2d;
+  --ravenclaw-light: #1b2951;
+  --ravenclaw-dark: #0a1230;
+
+  /* Hufflepuff */
+  --hufflepuff-primary: #ffd800;
+  --hufflepuff-secondary: #000000;
+  --hufflepuff-light: #ffe135;
+  --hufflepuff-dark: #e6c200;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  /* HP Theme */
+  --color-hp-background: var(--hp-background);
+  --color-hp-primary: var(--hp-primary);
+  --color-hp-secondary: var(--hp-secondary);
+  --color-hp-accent: var(--hp-accent);
+  --color-hp-parchment: var(--hp-parchment);
+  --color-hp-text: var(--hp-text);
+  --color-hp-dark-blue: var(--hp-dark-blue);
+  --color-hp-bronze: var(--hp-bronze);
+  --color-hp-shadow: var(--hp-shadow);
+
+  /* Gryffindor */
+  --color-gryffindor-primary: var(--gryffindor-primary);
+  --color-gryffindor-secondary: var(--gryffindor-secondary);
+  --color-gryffindor-light: var(--gryffindor-light);
+  --color-gryffindor-dark: var(--gryffindor-dark);
+
+  /* Slytherin */
+  --color-slytherin-primary: var(--slytherin-primary);
+  --color-slytherin-secondary: var(--slytherin-secondary);
+  --color-slytherin-light: var(--slytherin-light);
+  --color-slytherin-dark: var(--slytherin-dark);
+
+  /* Ravenclaw */
+  --color-ravenclaw-primary: var(--ravenclaw-primary);
+  --color-ravenclaw-secondary: var(--ravenclaw-secondary);
+  --color-ravenclaw-light: var(--ravenclaw-light);
+  --color-ravenclaw-dark: var(--ravenclaw-dark);
+
+  /* Hufflepuff */
+  --color-hufflepuff-primary: var(--hufflepuff-primary);
+  --color-hufflepuff-secondary: var(--hufflepuff-secondary);
+  --color-hufflepuff-light: var(--hufflepuff-light);
+  --color-hufflepuff-dark: var(--hufflepuff-dark);
+
+  /* Fonts */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: 'Garamond', 'Georgia', 'Times New Roman', serif;
+  --font-harry-potter: 'Harry Potter', cursive;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Custom Utility Classes */
+.hp-title {
+  font-family: 'Harry Potter', cursive;
+  letter-spacing: 0.05em;
 }
 
+.hp-magical-text {
+  text-shadow:
+    0 0 10px rgba(236, 185, 57, 0.5),
+    0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Body Styling */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--hp-background);
+  background-image: url('/assets/harry-potter-bg.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  color: var(--hp-parchment);
+  font-family: 'Garamond', 'Georgia', 'Times New Roman', serif;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Dark overlay for better readability */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(11, 11, 15, 0.75);
+  z-index: -1;
+  pointer-events: none;
 }
