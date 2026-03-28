@@ -51,3 +51,6 @@ CLAUDE.md
 .vscode/
 *.swp
 *.swo
+
+*storybook.log
+storybook-static

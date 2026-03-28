@@ -102,7 +102,7 @@
 /* Body Styling */
 body {
   background-color: var(--hp-background);
-  background-image: url('/assets/harry-potter-bg.jpeg');
+  background-image: url('/public/assets/harry-potter-bg.jpeg');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
