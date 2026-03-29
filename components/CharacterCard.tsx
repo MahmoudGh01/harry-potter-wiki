@@ -66,7 +66,7 @@ export default function CharacterCard({ character }: CharacterCardProps) {
 
   return (
     <div
-      className={`relative h-80 rounded-lg border-2 ${houseColors.border} ${houseColors.shadow} shadow-xl overflow-hidden transition-all duration-300 hover:scale-105 group`}
+      className={`relative h-80 rounded-lg border-2 ${houseColors.border} ${houseColors.shadow} overflow-hidden transition-all duration-300 hover:scale-105 group`}
     >
       {/* Background Image */}
       <div className="absolute inset-0">
