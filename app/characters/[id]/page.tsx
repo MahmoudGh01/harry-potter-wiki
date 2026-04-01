@@ -93,7 +93,7 @@ export default async function CharacterDetailPage({
   const houseColors = getHouseColors(character.hogwartsHouse);
 
   return (
-    <div className="min-h-screen bg-hp-background">
+    <div className="min-h-screen">
       {/* Back Button */}
       <div className="container mx-auto px-4 py-6">
         <Link

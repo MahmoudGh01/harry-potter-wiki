@@ -196,7 +196,9 @@ describe('CharacterGrid Component', () => {
         expect(screen.getByText('Character 1')).toBeInTheDocument();
       });
 
-      const searchInput = screen.getByPlaceholderText('Search characters...');
+      const searchInput = screen.getByPlaceholderText(
+        'Search characters by name or actor...'
+      );
       await user.type(searchInput, 'Character 1');
 
       // Should show Character 1, 10, 11, 12 (since '1' matches them)
@@ -218,7 +220,9 @@ describe('CharacterGrid Component', () => {
         expect(screen.getByText('Character 1')).toBeInTheDocument();
       });
 
-      const searchInput = screen.getByPlaceholderText('Search characters...');
+      const searchInput = screen.getByPlaceholderText(
+        'Search characters by name or actor...'
+      );
       await user.type(searchInput, 'NonExistentXYZ');
 
       await waitFor(() => {
