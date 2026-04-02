@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import CharacterCard from './CharacterCard';
 import Filters from './Filters';
 import Pagination from './Pagination';
-import Navigation from './Navigation';
+import SearchBar from './SearchBar';
 import { Character } from '@/types/character';
 
 const ITEMS_PER_PAGE = 12;
@@ -104,121 +104,115 @@ export default function CharacterGrid() {
 
   if (loading) {
     return (
-      <>
-        <Navigation searchQuery={searchQuery} onSearchChange={setSearchQuery} />
-        <main className="min-h-screen pt-4">
-          <div className="container mx-auto px-4 py-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {[...Array(12)].map((_, index) => (
-                <div
-                  key={index}
-                  className="h-80 bg-hp-shadow/50 border-2 border-hp-bronze/30 rounded-lg animate-pulse"
-                />
-              ))}
-            </div>
+      <main className="min-h-screen pt-4">
+        <div className="container mx-auto px-4 py-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {[...Array(12)].map((_, index) => (
+              <div
+                key={index}
+                className="h-80 bg-hp-shadow/50 border-2 border-hp-bronze/30 rounded-lg animate-pulse"
+              />
+            ))}
           </div>
-        </main>
-      </>
+        </div>
+      </main>
     );
   }
 
   if (error) {
     return (
-      <>
-        <Navigation searchQuery={searchQuery} onSearchChange={setSearchQuery} />
-        <main className="min-h-screen pt-4">
-          <div className="container mx-auto px-4 py-8">
-            <div className="text-center max-w-md mx-auto bg-hp-shadow/80 backdrop-blur-md border border-hp-bronze/40 rounded-lg shadow-xl p-8">
-              <div className="text-6xl mb-4">⚡</div>
-              <h2 className="hp-title text-2xl text-hp-accent mb-4">
-                Error Loading Characters
-              </h2>
-              <p className="text-hp-parchment mb-6">{error}</p>
-              <button
-                onClick={() => window.location.reload()}
-                className="px-6 py-3 bg-hp-accent text-hp-background rounded-lg hover:bg-hp-accent/90 transition-colors duration-200 font-semibold"
-              >
-                Try Again
-              </button>
-            </div>
+      <main className="min-h-screen pt-4">
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center max-w-md mx-auto bg-hp-shadow/80 backdrop-blur-md border border-hp-bronze/40 rounded-lg shadow-xl p-8">
+            <div className="text-6xl mb-4">⚡</div>
+            <h2 className="hp-title text-2xl text-hp-accent mb-4">
+              Error Loading Characters
+            </h2>
+            <p className="text-hp-parchment mb-6">{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-6 py-3 bg-hp-accent text-hp-background rounded-lg hover:bg-hp-accent/90 transition-colors duration-200 font-semibold"
+            >
+              Try Again
+            </button>
           </div>
-        </main>
-      </>
+        </div>
+      </main>
     );
   }
 
   return (
-    <>
-      <Navigation searchQuery={searchQuery} onSearchChange={setSearchQuery} />
-      <main className="min-h-screen pt-4">
-        <div className="container mx-auto px-4 py-8">
-          {/* Filters */}
-          <Filters
-            selectedHouse={selectedHouse}
-            selectedSpecies={selectedSpecies}
-            onHouseChange={setSelectedHouse}
-            onSpeciesChange={setSelectedSpecies}
-            onClear={handleClearFilters}
-            availableHouses={availableHouses}
-            availableSpecies={availableSpecies}
-          />
+    <main className="min-h-screen pt-4">
+      <div className="container mx-auto px-4 py-8">
+        {/* Search Bar */}
+        <SearchBar searchQuery={searchQuery} onSearchChange={setSearchQuery} />
 
-          {/* Results Count */}
-          <div className="mb-6 text-center">
-            <p className="text-hp-parchment text-lg">
-              Found{' '}
-              <span className="font-semibold text-hp-accent">
-                {filteredCharacters.length}
-              </span>{' '}
-              {filteredCharacters.length === 1 ? 'character' : 'characters'}
-            </p>
-          </div>
+        {/* Filters */}
+        <Filters
+          selectedHouse={selectedHouse}
+          selectedSpecies={selectedSpecies}
+          onHouseChange={setSelectedHouse}
+          onSpeciesChange={setSelectedSpecies}
+          onClear={handleClearFilters}
+          availableHouses={availableHouses}
+          availableSpecies={availableSpecies}
+        />
 
-          {/* Character Grid */}
-          {paginatedCharacters.length > 0 ? (
-            <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {paginatedCharacters.map(character => (
-                  <CharacterCard key={character.index} character={character} />
-                ))}
-              </div>
-
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={setCurrentPage}
-                  resultsPerPage={ITEMS_PER_PAGE}
-                  totalResults={filteredCharacters.length}
-                />
-              )}
-            </>
-          ) : (
-            <div className="text-center max-w-md mx-auto bg-hp-shadow/80 backdrop-blur-md border border-hp-bronze/40 rounded-lg shadow-xl p-8">
-              <div className="text-6xl mb-4">🔍</div>
-              <h2 className="hp-title text-2xl text-hp-accent mb-4">
-                No Characters Found
-              </h2>
-              <p className="text-hp-parchment mb-6">
-                No characters match your current filters. Try adjusting your
-                search or clearing filters.
-              </p>
-              {(selectedHouse || selectedSpecies || searchQuery) && (
-                <button
-                  onClick={() => {
-                    setSearchQuery('');
-                    handleClearFilters();
-                  }}
-                  className="px-6 py-3 bg-hp-accent/20 border border-hp-accent text-hp-accent rounded-lg hover:bg-hp-accent hover:text-hp-background transition-all duration-200 font-semibold"
-                >
-                  Clear All Filters
-                </button>
-              )}
-            </div>
-          )}
+        {/* Results Count */}
+        <div className="mb-6 text-center">
+          <p className="text-hp-parchment text-lg">
+            Found{' '}
+            <span className="font-semibold text-hp-accent">
+              {filteredCharacters.length}
+            </span>{' '}
+            {filteredCharacters.length === 1 ? 'character' : 'characters'}
+          </p>
         </div>
-      </main>
-    </>
+
+        {/* Character Grid */}
+        {paginatedCharacters.length > 0 ? (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {paginatedCharacters.map(character => (
+                <CharacterCard key={character.index} character={character} />
+              ))}
+            </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+                resultsPerPage={ITEMS_PER_PAGE}
+                totalResults={filteredCharacters.length}
+              />
+            )}
+          </>
+        ) : (
+          <div className="text-center max-w-md mx-auto bg-hp-shadow/80 backdrop-blur-md border border-hp-bronze/40 rounded-lg shadow-xl p-8">
+            <div className="text-6xl mb-4">🔍</div>
+            <h2 className="hp-title text-2xl text-hp-accent mb-4">
+              No Characters Found
+            </h2>
+            <p className="text-hp-parchment mb-6">
+              No characters match your current filters. Try adjusting your
+              search or clearing filters.
+            </p>
+            {(selectedHouse || selectedSpecies || searchQuery) && (
+              <button
+                onClick={() => {
+                  setSearchQuery('');
+                  handleClearFilters();
+                }}
+                className="px-6 py-3 bg-hp-accent/20 border border-hp-accent text-hp-accent rounded-lg hover:bg-hp-accent hover:text-hp-background transition-all duration-200 font-semibold"
+              >
+                Clear All Filters
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+    </main>
   );
 }

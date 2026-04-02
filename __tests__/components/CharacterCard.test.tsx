@@ -16,7 +16,9 @@ describe('CharacterCard Component', () => {
       const { container } = render(
         <CharacterCard character={mockGryffindorCharacter} />
       );
-      const card = container.firstChild as HTMLElement;
+      const card = container.querySelector(
+        'div[class*="border-"]'
+      ) as HTMLElement;
 
       expect(card).toHaveClass('border-gryffindor-primary');
     });
@@ -25,7 +27,9 @@ describe('CharacterCard Component', () => {
       const { container } = render(
         <CharacterCard character={mockSlytherinCharacter} />
       );
-      const card = container.firstChild as HTMLElement;
+      const card = container.querySelector(
+        'div[class*="border-"]'
+      ) as HTMLElement;
 
       expect(card).toHaveClass('border-slytherin-primary');
     });
@@ -34,7 +38,9 @@ describe('CharacterCard Component', () => {
       const { container } = render(
         <CharacterCard character={mockRavenclawCharacter} />
       );
-      const card = container.firstChild as HTMLElement;
+      const card = container.querySelector(
+        'div[class*="border-"]'
+      ) as HTMLElement;
 
       expect(card).toHaveClass('border-ravenclaw-primary');
     });
@@ -43,7 +49,9 @@ describe('CharacterCard Component', () => {
       const { container } = render(
         <CharacterCard character={mockHufflepuffCharacter} />
       );
-      const card = container.firstChild as HTMLElement;
+      const card = container.querySelector(
+        'div[class*="border-"]'
+      ) as HTMLElement;
 
       expect(card).toHaveClass('border-hufflepuff-primary');
     });
@@ -52,7 +60,9 @@ describe('CharacterCard Component', () => {
       const { container } = render(
         <CharacterCard character={mockCharacterNoHouse} />
       );
-      const card = container.firstChild as HTMLElement;
+      const card = container.querySelector(
+        'div[class*="border-"]'
+      ) as HTMLElement;
 
       expect(card).toHaveClass('border-hp-bronze');
     });
@@ -66,7 +76,9 @@ describe('CharacterCard Component', () => {
       const { container } = render(
         <CharacterCard character={uppercaseCharacter} />
       );
-      const card = container.firstChild as HTMLElement;
+      const card = container.querySelector(
+        'div[class*="border-"]'
+      ) as HTMLElement;
 
       expect(card).toHaveClass('border-gryffindor-primary');
     });
@@ -159,7 +171,9 @@ describe('CharacterCard Component', () => {
       const { container } = render(
         <CharacterCard character={mockGryffindorCharacter} />
       );
-      const card = container.firstChild as HTMLElement;
+      const card = container.querySelector(
+        'div[class*="border-"]'
+      ) as HTMLElement;
 
       expect(card).toHaveClass('rounded-lg');
       expect(card).toHaveClass('shadow-xl');
@@ -170,7 +184,9 @@ describe('CharacterCard Component', () => {
       const { container } = render(
         <CharacterCard character={mockSlytherinCharacter} />
       );
-      const card = container.firstChild as HTMLElement;
+      const card = container.querySelector(
+        'div[class*="border-"]'
+      ) as HTMLElement;
 
       expect(card).toHaveClass('hover:scale-105');
       expect(card).toHaveClass('transition-all');
