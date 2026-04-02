@@ -1,14 +1,12 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import { Character } from '@/types/character';
 import CharacterCard from './CharacterCard';
+import DiscoverListHeader from './DiscoverListHeader';
 import Filters, { FilterOptions } from './Filters';
 import Pagination from './Pagination';
 import SearchBar from './SearchBar';
-import DiscoverListHeader from './DiscoverListHeader';
-import { Character } from '@/types/character';
-
-const ITEMS_PER_PAGE = 12;
 
 export default function CharacterGrid() {
   const [characters, setCharacters] = useState<Character[]>([]);
@@ -86,12 +84,12 @@ export default function CharacterGrid() {
 
   // Paginate characters
   const paginatedCharacters = useMemo(() => {
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    const endIndex = startIndex + ITEMS_PER_PAGE;
+    const startIndex = (currentPage - 1) * 12;
+    const endIndex = startIndex + 12;
     return filteredCharacters.slice(startIndex, endIndex);
   }, [filteredCharacters, currentPage]);
 
-  const totalPages = Math.ceil(filteredCharacters.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(filteredCharacters.length / 12);
 
   // Reset to page 1 when filters change
   useEffect(() => {
@@ -180,7 +178,7 @@ export default function CharacterGrid() {
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={setCurrentPage}
-                resultsPerPage={ITEMS_PER_PAGE}
+                resultsPerPage={12}
                 totalResults={filteredCharacters.length}
               />
             )}
