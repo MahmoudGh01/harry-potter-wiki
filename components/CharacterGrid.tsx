@@ -5,6 +5,7 @@ import CharacterCard from './CharacterCard';
 import Filters, { FilterOptions } from './Filters';
 import Pagination from './Pagination';
 import SearchBar from './SearchBar';
+import DiscoverListHeader from './DiscoverListHeader';
 import { Character } from '@/types/character';
 
 const ITEMS_PER_PAGE = 12;
@@ -139,6 +140,14 @@ export default function CharacterGrid() {
   return (
     <main className="min-h-screen pt-4">
       <div className="container mx-auto px-4 py-8">
+        {/* Hero Section */}
+        <DiscoverListHeader
+          title="Characters"
+          subtitle="discover the wizarding world"
+          description="The Harry Potter series features hundreds of memorable characters from the wizarding world. From the brave students of Hogwarts to the powerful wizards and witches who shaped magical history, each character brings their own unique story. Explore the beloved heroes, cunning villains, and everyone in between who made the wizarding world come alive..."
+          id="page_characters"
+        />
+
         {/* Search Bar */}
         <SearchBar searchQuery={searchQuery} onSearchChange={setSearchQuery} />
 
