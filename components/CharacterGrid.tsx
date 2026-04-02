@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import CharacterCard from './CharacterCard';
-import Filters from './Filters';
+import Filters, { FilterOptions } from './Filters';
 import Pagination from './Pagination';
 import SearchBar from './SearchBar';
 import { Character } from '@/types/character';
@@ -16,8 +16,11 @@ export default function CharacterGrid() {
 
   // Filter and search states
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedHouse, setSelectedHouse] = useState('');
-  const [selectedSpecies, setSelectedSpecies] = useState('');
+  const [filters, setFilters] = useState<FilterOptions>({
+    house: 'all',
+    hasActor: 'all',
+    hasChildren: 'all',
+  });
   const [currentPage, setCurrentPage] = useState(1);
 
   // Fetch characters
@@ -45,23 +48,6 @@ export default function CharacterGrid() {
     fetchCharacters();
   }, []);
 
-  // Get unique houses and species for filters
-  const { availableHouses, availableSpecies } = useMemo(() => {
-    const houses = new Set<string>();
-    const species = new Set<string>();
-
-    characters.forEach(char => {
-      if (char.hogwartsHouse) houses.add(char.hogwartsHouse);
-      // Note: The API doesn't have species field, so we'll need to adapt
-      // For now, we'll keep it for future enhancement
-    });
-
-    return {
-      availableHouses: Array.from(houses).sort(),
-      availableSpecies: Array.from(species).sort(),
-    };
-  }, [characters]);
-
   // Filter and search characters
   const filteredCharacters = useMemo(() => {
     return characters.filter(char => {
@@ -74,14 +60,28 @@ export default function CharacterGrid() {
 
       // House filter
       const matchesHouse =
-        selectedHouse === '' || char.hogwartsHouse === selectedHouse;
+        filters.house === 'all' ||
+        (filters.house === 'unknown' && !char.hogwartsHouse) ||
+        char.hogwartsHouse?.toLowerCase() === filters.house.toLowerCase();
 
-      // Species filter (placeholder for future)
-      const matchesSpecies = selectedSpecies === '';
+      // Actor filter
+      const matchesActor =
+        filters.hasActor === 'all' ||
+        (filters.hasActor === 'with-actor' && char.interpretedBy) ||
+        (filters.hasActor === 'without-actor' && !char.interpretedBy);
 
-      return matchesSearch && matchesHouse && matchesSpecies;
+      // Children filter
+      const matchesChildren =
+        filters.hasChildren === 'all' ||
+        (filters.hasChildren === 'with-children' &&
+          char.children &&
+          char.children.length > 0) ||
+        (filters.hasChildren === 'without-children' &&
+          (!char.children || char.children.length === 0));
+
+      return matchesSearch && matchesHouse && matchesActor && matchesChildren;
     });
-  }, [characters, searchQuery, selectedHouse, selectedSpecies]);
+  }, [characters, searchQuery, filters]);
 
   // Paginate characters
   const paginatedCharacters = useMemo(() => {
@@ -95,12 +95,7 @@ export default function CharacterGrid() {
   // Reset to page 1 when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, selectedHouse, selectedSpecies]);
-
-  const handleClearFilters = () => {
-    setSelectedHouse('');
-    setSelectedSpecies('');
-  };
+  }, [searchQuery, filters]);
 
   if (loading) {
     return (
@@ -148,15 +143,7 @@ export default function CharacterGrid() {
         <SearchBar searchQuery={searchQuery} onSearchChange={setSearchQuery} />
 
         {/* Filters */}
-        <Filters
-          selectedHouse={selectedHouse}
-          selectedSpecies={selectedSpecies}
-          onHouseChange={setSelectedHouse}
-          onSpeciesChange={setSelectedSpecies}
-          onClear={handleClearFilters}
-          availableHouses={availableHouses}
-          availableSpecies={availableSpecies}
-        />
+        <Filters onFilterChange={setFilters} />
 
         {/* Results Count */}
         <div className="mb-6 text-center">
@@ -199,11 +186,18 @@ export default function CharacterGrid() {
               No characters match your current filters. Try adjusting your
               search or clearing filters.
             </p>
-            {(selectedHouse || selectedSpecies || searchQuery) && (
+            {(filters.house !== 'all' ||
+              filters.hasActor !== 'all' ||
+              filters.hasChildren !== 'all' ||
+              searchQuery) && (
               <button
                 onClick={() => {
                   setSearchQuery('');
-                  handleClearFilters();
+                  setFilters({
+                    house: 'all',
+                    hasActor: 'all',
+                    hasChildren: 'all',
+                  });
                 }}
                 className="px-6 py-3 bg-hp-accent/20 border border-hp-accent text-hp-accent rounded-lg hover:bg-hp-accent hover:text-hp-background transition-all duration-200 font-semibold"
               >
