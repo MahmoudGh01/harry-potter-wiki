@@ -2,6 +2,8 @@
 
 A comprehensive Harry Potter wiki built with Next.js 16, React 19, and TypeScript. Explore the magical world of Harry Potter with detailed information about characters, spells, houses, and more.
 
+![Home Page](./public/screenshots/homePage.png)
+
 ## Features
 
 - Modern, responsive design with Tailwind CSS
