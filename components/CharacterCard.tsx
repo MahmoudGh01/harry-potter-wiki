@@ -68,6 +68,7 @@ export default function CharacterCard({ character }: CharacterCardProps) {
   return (
     <Link href={`/characters/${character.index}`}>
       <div
+        data-testid={`character-card-${character.index}`}
         className={`relative h-80 rounded-lg border-2 ${houseColors.border} ${houseColors.shadow} shadow-xl overflow-hidden transition-all duration-300 hover:scale-105 group cursor-pointer`}
       >
         {/* Background Image */}
